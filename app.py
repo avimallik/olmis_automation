@@ -69,8 +69,16 @@ def register():
         INSERT INTO tbl_laywer_register (
             branch_name, branch_code, area_name, area_code, division_name, division_code,
             country, name_english, name_bangla, bar_council_passing_year, bar_council_certificate_no, year_permission_practice_high_court,
-            year_permission_practice_appellate, bar_association_membership_no, member_of_bar_association
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            year_permission_practice_appellate, bar_association_membership_no, member_of_bar_association, bar_at_law,
+            address_present_english, address_present_bangla, address_permanent_english, address_permanent_bangla,
+            address_court_chamber_english, address_court_chamber_bangla, address_personal_chamber_english, address_personal_chamber_bangla, 
+            email, mobile, nid, experiences, other_academic_qualifications, passport_no, passport_expiry_date, overseas_national_id, 
+            diploma_or_professional_degree, other_training, date_of_birth, highest_education, photo_filename,
+            codice_fiscale, document_branch_inward_no, document_ho_inward_no, application_session
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                 %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
             branch_name, branch_code, area_name, area_code, division_name, division_code, 
             form.get('country'),
@@ -82,6 +90,32 @@ def register():
             form.get('year_permission_practice_appellate'),
             form.get('bar_association_membership_no'),
             form.get('member_of_bar_association'),
+            form.get('bar_at_law'), 
+            form.get('address_present_english'),
+            form.get('address_present_bangla'),
+            form.get('address_permanent_english'),
+            form.get('address_permanent_bangla'),
+            form.get('address_court_chamber_english'),
+            form.get('address_court_chamber_bangla'),
+            form.get('address_personal_chamber_english'),
+            form.get('address_personal_chamber_bangla'),
+            form.get('email'),
+            form.get('mobile'),
+            form.get('nid'),
+            form.get('experiences'),
+            form.get('other_academic_qualifications'),
+            form.get('passport_no'),
+            form.get('passport_expiry_date'),
+            form.get('overseas_national_id'),
+            form.get('diploma_or_professional_degree'),
+            form.get('other_training'),
+            form.get('date_of_birth'),
+            form.get('highest_education'),
+            photo_filename,
+            form.get('codice_fiscale'),
+            form.get('document_branch_inward_no'),
+            form.get('document_ho_inward_no'),
+            form.get('application_session'),
         ))
         mysql.connection.commit()
         flash('Registration Successful!', 'success')
