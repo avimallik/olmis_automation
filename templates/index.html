@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>OLMIS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+    html, body {
+      height: 70%;
+      margin: 0;
+      padding-top: 30px; /* To make space for the fixed navbar */
+    }
+
+    .center-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 70px); /* Full viewport height minus navbar height */
+      text-align: center;
+    }
+
+    .center-wrapper img {
+      width: 20%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Fixed-top Navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+  
+      <!-- Navbar Header with Collapse Button -->
+      <div class="navbar-header">
+        <!-- Hamburger icon button (visible on mobile) -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">OLMIS</a>
+      </div>
+  
+      <!-- Collapsible Navbar Links -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-main">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Page 1</a></li>
+          <li><a href="#">Page 2</a></li>
+          <li><a href="#">Page 3</a></li>
+        </ul>
+      </div>
+  
+    </div>
+  </nav>
+
+<!-- Centered Image and Button -->
+<div class="center-wrapper">
+  <img src="static/image/logo.png"  alt="Centered Image" class="img-responsive">
+  <a href="{{ url_for('register')}}" class="btn btn-primary" style="width: 15%;" >Register</a>
+</div>
+
+</body>
+</html>
