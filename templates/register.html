@@ -173,8 +173,17 @@
             <div class="col-sm-6"><label>Document Branch Inward No:</label><input type="text" class="form-control" name="document_branch_inward_no"></div>
         </div>
         <div class="row">
-            <div class="col-sm-6"><label>Document HO Inward No:</label><input type="text" class="form-control" name="document_ho_inward_no"></div>
-            <div class="col-sm-6"><label>Application Session:</label><input type="date" class="form-control" name="application_session"></div>
+            <div class="col-sm-4"><label>Document HO Inward No:</label><input type="text" class="form-control" name="document_ho_inward_no"></div>
+            <div class="col-sm-4"><label>Application Session:</label><input type="date" class="form-control" name="application_session"></div>
+            <div class="col-sm-4">
+                <label>Type of Application:</label>
+                <select class="form-control" name="type_of_application" required>
+                    <option value="">--Select Type--</option> 
+                    {% for c in application_types %}
+                        <option value="{{ c[1] }}">{{ c[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
         <div class="form-group" style="margin-top:20px;">
