@@ -1,4 +1,4 @@
-# OLMS: Online Lawyer Management Information System
+# OLMIS: Online Lawyer Management Information System
 
 OLMS (Online Lawyer Management Information System) is a modern, full-featured web application designed to streamline the management of legal professionals and organizational units such as divisions, branches, areas, and bar association members. Built using Flask (Python), MySQL, and Bootstrap, OLMS provides a clean, responsive, and user-friendly interface for legal organizations, law firms, bar associations, and administrative users.
 
