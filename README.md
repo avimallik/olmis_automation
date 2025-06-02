@@ -1,6 +1,6 @@
 # OLMIS: Online Lawyer Management Information System
 
-OLMS (Online Lawyer Management Information System) is a modern, full-featured web application designed to streamline the management of legal professionals and organizational units such as divisions, branches, areas, and bar association members. Built using Flask (Python), MySQL, and Bootstrap, OLMS provides a clean, responsive, and user-friendly interface for legal organizations, law firms, bar associations, and administrative users.
+OLMIS (Online Lawyer Management Information System) is a modern, full-featured web application designed to streamline the management of legal professionals and organizational units such as divisions, branches, areas, and bar association members. Built using Flask (Python), MySQL, and Bootstrap, OLMS provides a clean, responsive, and user-friendly interface for legal organizations, law firms, bar associations, and administrative users.
 
 ---
 
@@ -75,24 +75,3 @@ OLMS (Online Lawyer Management Information System) is a modern, full-featured we
 - **Lawyer Registration:** Register new lawyers, with smart dependent dropdowns.
 
 > **Tip:** Navigate using the top navbar. All actions (add, edit, delete) use user-friendly modals or confirmation dialogs.
-
----
-
-## 📂 Project Structure
-olms/
-├── app.py
-├── requirements.txt
-├── record_division.py
-├── record_branch.py
-├── record_area.py
-├── record_member_of_bar_association.py
-├── templates/
-│ ├── record_division.html
-│ ├── record_branch.html
-│ ├── record_area.html
-│ ├── record_member_of_bar_association.html
-│ └── ...
-├── static/
-│ ├── ...
-└── database/
-└── schema.sql
