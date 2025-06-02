@@ -1,196 +1,301 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>OLMIS</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/livereload-js/3.1.0/livereload.min.js"></script>
-    <link rel="stylesheet" href="../static/login.css">
+<html lang="en">
+<head>
+    <title>Lawyer Register - OLMIS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
 
     <style>
-
-    select, option {
-      color: black;
-      background-color: white;
-      padding: 10px;
-      font-size: 16px;
-    }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f4f6f9;
+        }
+        .navbar {
+            margin-bottom: 30px;
+        }
+        .card {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            border-radius: 1rem;
+        }
+        .card-header {
+            border-radius: 1rem 1rem 0 0;
+            background: #343a40;
+            color: #fff;
+        }
+        label {
+            font-weight: 200;
+        }
+        .btn-primary {
+            border-radius: 0.5rem;
+        }
+        .form-control, .form-select {
+            border-radius: 0.5rem;
+        }
+        .alert {
+            border-radius: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .card { padding: 10px; }
+        }
     </style>
-  </head>
+</head>
+<body>
 
-
-  <body>
-
-
-    <!-- Fixed-top Navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
-  
-      <!-- Navbar Header with Collapse Button -->
-      <div class="navbar-header">
-        <!-- Hamburger icon button (visible on mobile) -->
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
         <a class="navbar-brand" href="#">OLMIS</a>
-      </div>
-  
-      <!-- Collapsible Navbar Links -->
-      <div class="collapse navbar-collapse" id="navbar-collapse-main">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-        </ul>
-      </div>
-  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Page 1</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Page 2</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Page 3</a></li>
+            </ul>
+        </div>
     </div>
-  </nav><br><br><br><br>
+</nav>
 
-  <div class="container">
-    <h2>Lawyer Register</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{category}}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <form method="POST" enctype="multipart/form-data">
-        <div class="row">
-            <!-- Division -->
-            <div class="col-sm-4">
-                <label>Bank Division:</label>
-                <select class="form-control" id="division" name="division" required>
-                    <option value="">--Select Division--</option>
-                    {% for d in divisions %}
-                        <option value="{{ d[0] }}">{{ d[1] }} ({{ d[2] }})</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <!-- Branch -->
-            <div class="col-sm-4">
-                <label>Branch:</label>
-                <select id="branch" name="branch" class="form-control" disabled required>
-                    <option value="">--Select Branch--</option>
-                </select>
-            </div>
-            <!-- Area -->
-            <div class="col-sm-4">
-                <label>Area:</label>
-                <select id="area" name="area" class="form-control" disabled required>
-                    <option value="">--Select Area--</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Country -->
-            <div class="col-sm-6">
-                <label>Country:</label>
-                <select name="country" class="form-control" required>
-                    <option value="">--Select Country--</option>
-                    {% for c in countries %}
-                        <option value="{{ c[1] }}">{{ c[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <!-- Member of Bar Association -->
-            <div class="col-sm-6">
-                <label>Member of Bar Association:</label>
-                <select name="member_of_bar_association" class="form-control" required>
-                    <option value="">--Select Association--</option>
-                    {% for m in bar_associations %}
-                        <option value="{{ m[1] }}">{{ m[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card p-3">
+                <div class="mb-2 mt-2">
+                    <h3 class="mb-1" style="font-weight: 100;padding: 10px;">Lawyer Register</h3>
+                    <hr style="height: 2px; background: #0d6efd; border: none; margin: 0;">
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form method="POST" enctype="multipart/form-data" style="padding: 10px;">
+                    <div class="row g-3">
+                        <!-- Division -->
+                        <div class="col-md-4">
+                            <label for="division" class="form-label">Bank Division</label>
+                            <select class="form-select" id="division" name="division" required>
+                                <option value="">--Select Division--</option>
+                                {% for d in divisions %}
+                                    <option value="{{ d[0] }}">{{ d[1] }} ({{ d[2] }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Branch -->
+                        <div class="col-md-4">
+                            <label for="branch" class="form-label">Branch</label>
+                            <select id="branch" name="branch" class="form-select" disabled required>
+                                <option value="">--Select Branch--</option>
+                            </select>
+                        </div>
+                        <!-- Area -->
+                        <div class="col-md-4">
+                            <label for="area" class="form-label">Area</label>
+                            <select id="area" name="area" class="form-select" disabled required>
+                                <option value="">--Select Area--</option>
+                            </select>
+                        </div>
 
-        <!-- All other fields below, grouped for brevity, use input names matching DB fields -->
-        <div class="row">
-            <div class="col-sm-6"><label>Name (English):</label><input type="text" class="form-control" name="name_english" required></div>
-            <div class="col-sm-6"><label>Name (Bangla):</label><input type="text" class="form-control" name="name_bangla"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4"><label>Bar Council Passing Year:</label><input type="text" class="form-control" name="bar_council_passing_year"></div>
-            <div class="col-sm-4"><label>Bar Council Certificate No:</label><input type="text" class="form-control" name="bar_council_certificate_no"></div>
-            <div class="col-sm-4"><label>Year Permission Practice High Court:</label><input type="text" class="form-control" name="year_permission_practice_high_court"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4"><label>Year Permission Practice Appellate:</label><input type="text" class="form-control" name="year_permission_practice_appellate"></div>
-            <div class="col-sm-4"><label>Bar Association Membership No:</label><input type="text" class="form-control" name="bar_association_membership_no"></div>
-            <div class="col-sm-4"><label>Bar-at-Law:</label><input type="text" class="form-control" name="bar_at_law"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Address Present (English):</label><input type="text" class="form-control" name="address_present_english"></div>
-            <div class="col-sm-6"><label>Address Present (Bangla):</label><input type="text" class="form-control" name="address_present_bangla"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Address Permanent (English):</label><input type="text" class="form-control" name="address_permanent_english"></div>
-            <div class="col-sm-6"><label>Address Permanent (Bangla):</label><input type="text" class="form-control" name="address_permanent_bangla"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Address Court Chamber (English):</label><input type="text" class="form-control" name="address_court_chamber_english"></div>
-            <div class="col-sm-6"><label>Address Court Chamber (Bangla):</label><input type="text" class="form-control" name="address_court_chamber_bangla"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Address Personal Chamber (English):</label><input type="text" class="form-control" name="address_personal_chamber_english"></div>
-            <div class="col-sm-6"><label>Address Personal Chamber (Bangla):</label><input type="text" class="form-control" name="address_personal_chamber_bangla"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4"><label>Email:</label><input type="email" class="form-control" name="email"></div>
-            <div class="col-sm-4"><label>Mobile:</label><input type="text" class="form-control" name="mobile"></div>
-            <div class="col-sm-4"><label>NID:</label><input type="text" class="form-control" name="nid"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Experiences:</label><input type="text" class="form-control" name="experiences"></div>
-            <div class="col-sm-6"><label>Other Academic Qualifications:</label><input type="text" class="form-control" name="other_academic_qualifications"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Passport No.:</label><input type="text" class="form-control" name="passport_no"></div>
-            <div class="col-sm-6"><label>Passport Expiry Date:</label><input type="date" class="form-control" name="passport_expiry_date"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Overseas National ID:</label><input type="text" class="form-control" name="overseas_national_id"></div>
-            <div class="col-sm-6"><label>Diploma/Professional Degree:</label><input type="text" class="form-control" name="diploma_or_professional_degree"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Other Training:</label><input type="text" class="form-control" name="other_training"></div>
-            <div class="col-sm-6"><label>Date of Birth:</label><input type="date" class="form-control" name="date_of_birth"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Highest Education:</label><input type="text" class="form-control" name="highest_education"></div>
-            <div class="col-sm-6"><label>Photo:</label><input type="file" class="form-control" name="photo_filename"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6"><label>Codice Fiscale/ETIN/SSN:</label><input type="text" class="form-control" name="codice_fiscale"></div>
-            <div class="col-sm-6"><label>Document Branch Inward No:</label><input type="text" class="form-control" name="document_branch_inward_no"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4"><label>Document HO Inward No:</label><input type="text" class="form-control" name="document_ho_inward_no"></div>
-            <div class="col-sm-4"><label>Application Session:</label><input type="date" class="form-control" name="application_session"></div>
-            <div class="col-sm-4">
-                <label>Type of Application:</label>
-                <select class="form-control" name="type_of_application" required>
-                    <option value="">--Select Type--</option> 
-                    {% for c in application_types %}
-                        <option value="{{ c[1] }}">{{ c[1] }}</option>
-                    {% endfor %}
-                </select>
+                        <!-- Country -->
+                        <div class="col-md-6">
+                            <label for="country" class="form-label">Country</label>
+                            <select name="country" class="form-select" required>
+                                <option value="">--Select Country--</option>
+                                {% for c in countries %}
+                                    <option value="{{ c[1] }}">{{ c[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Member of Bar Association -->
+                        <div class="col-md-6">
+                            <label for="member_of_bar_association" class="form-label">Member of Bar Association</label>
+                            <select name="member_of_bar_association" class="form-select" required>
+                                <option value="">--Select Association--</option>
+                                {% for m in bar_associations %}
+                                    <option value="{{ m[1] }}">{{ m[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Name (English & Bangla) -->
+                        <div class="col-md-6">
+                            <label class="form-label">Name (English)</label>
+                            <input type="text" class="form-control" name="name_english" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Name (Bangla)</label>
+                            <input type="text" class="form-control" name="name_bangla">
+                        </div>
+                        <!-- Bar Council Passing Year & Certificate No & HC Permission -->
+                        <div class="col-md-4">
+                            <label class="form-label">Bar Council Passing Year</label>
+                            <input type="text" class="form-control" name="bar_council_passing_year">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bar Council Certificate No</label>
+                            <input type="text" class="form-control" name="bar_council_certificate_no">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Year Permission Practice High Court</label>
+                            <input type="text" class="form-control" name="year_permission_practice_high_court">
+                        </div>
+                        <!-- Appellate, Membership No, Bar-at-Law -->
+                        <div class="col-md-4">
+                            <label class="form-label">Year Permission Practice Appellate</label>
+                            <input type="text" class="form-control" name="year_permission_practice_appellate">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bar Association Membership No</label>
+                            <input type="text" class="form-control" name="bar_association_membership_no">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bar-at-Law</label>
+                            <input type="text" class="form-control" name="bar_at_law">
+                        </div>
+                        <!-- Present & Permanent Address -->
+                        <div class="col-md-6">
+                            <label class="form-label">Address Present (English)</label>
+                            <input type="text" class="form-control" name="address_present_english">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Present (Bangla)</label>
+                            <input type="text" class="form-control" name="address_present_bangla">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Permanent (English)</label>
+                            <input type="text" class="form-control" name="address_permanent_english">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Permanent (Bangla)</label>
+                            <input type="text" class="form-control" name="address_permanent_bangla">
+                        </div>
+                        <!-- Court & Personal Chamber -->
+                        <div class="col-md-6">
+                            <label class="form-label">Address Court Chamber (English)</label>
+                            <input type="text" class="form-control" name="address_court_chamber_english">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Court Chamber (Bangla)</label>
+                            <input type="text" class="form-control" name="address_court_chamber_bangla">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Personal Chamber (English)</label>
+                            <input type="text" class="form-control" name="address_personal_chamber_english">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Personal Chamber (Bangla)</label>
+                            <input type="text" class="form-control" name="address_personal_chamber_bangla">
+                        </div>
+                        <!-- Email, Mobile, NID -->
+                        <div class="col-md-4">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Mobile</label>
+                            <input type="text" class="form-control" name="mobile">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">NID</label>
+                            <input type="text" class="form-control" name="nid">
+                        </div>
+                        <!-- Experiences & Qualifications -->
+                        <div class="col-md-6">
+                            <label class="form-label">Experiences</label>
+                            <input type="text" class="form-control" name="experiences">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Other Academic Qualifications</label>
+                            <input type="text" class="form-control" name="other_academic_qualifications">
+                        </div>
+                        <!-- Passport -->
+                        <div class="col-md-6">
+                            <label class="form-label">Passport No.</label>
+                            <input type="text" class="form-control" name="passport_no">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Passport Expiry Date</label>
+                            <input type="date" class="form-control" name="passport_expiry_date">
+                        </div>
+                        <!-- Overseas National ID & Diploma -->
+                        <div class="col-md-6">
+                            <label class="form-label">Overseas National ID</label>
+                            <input type="text" class="form-control" name="overseas_national_id">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Diploma/Professional Degree</label>
+                            <input type="text" class="form-control" name="diploma_or_professional_degree">
+                        </div>
+                        <!-- Other Training & DOB -->
+                        <div class="col-md-6">
+                            <label class="form-label">Other Training</label>
+                            <input type="text" class="form-control" name="other_training">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" name="date_of_birth">
+                        </div>
+                        <!-- Highest Education & Photo -->
+                        <div class="col-md-6">
+                            <label class="form-label">Highest Education</label>
+                            <input type="text" class="form-control" name="highest_education">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Photo</label>
+                            <input type="file" class="form-control" name="photo_filename">
+                        </div>
+                        <!-- Codice Fiscale & Document Branch Inward No -->
+                        <div class="col-md-6">
+                            <label class="form-label">Codice Fiscale/ETIN/SSN</label>
+                            <input type="text" class="form-control" name="codice_fiscale">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Document Branch Inward No</label>
+                            <input type="text" class="form-control" name="document_branch_inward_no">
+                        </div>
+                        <!-- Document HO Inward No, Application Session, Type of Application -->
+                        <div class="col-md-4">
+                            <label class="form-label">Document HO Inward No</label>
+                            <input type="text" class="form-control" name="document_ho_inward_no">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Application Session</label>
+                            <input type="date" class="form-control" name="application_session">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Type of Application</label>
+                            <select class="form-select" name="type_of_application" required>
+                                <option value="">--Select Type--</option>
+                                {% for c in application_types %}
+                                    <option value="{{ c[1] }}">{{ c[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-primary w-100 py-2">Register</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <div class="form-group" style="margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Register</button>
-        </div>
-    </form>
+    </div>
 </div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
 // Dependent dropdowns for branch/area
@@ -228,7 +333,5 @@ $('#branch').on('change', function() {
     }
 });
 </script>
-
-
-  </body>
+</body>
 </html>
