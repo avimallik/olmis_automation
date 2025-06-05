@@ -7,6 +7,9 @@ from record_division import record_division_bp, init_mysql as init_record_divisi
 from record_branch import record_branch_bp, init_mysql as init_record_branch_mysql
 from record_area import record_area_bp, init_mysql as init_record_area_mysql
 from record_member_of_bar_association import record_member_of_bar_association_bp, init_mysql as init_member_of_bar_association_mysql
+from record_application_type import record_application_type_bp, init_mysql as init_application_type_mysql
+from record_register import record_register_bp, init_mysql as init_record_register_mysql
+
 
 app = Flask(__name__)
 app.secret_key = 'dev_1234567890'
@@ -26,6 +29,8 @@ init_record_division_mysql(mysql)
 init_record_branch_mysql(mysql)
 init_record_area_mysql(mysql)
 init_member_of_bar_association_mysql(mysql)
+init_application_type_mysql(mysql)
+init_record_register_mysql(mysql)
 
 @app.route('/')
 def home():
@@ -37,6 +42,8 @@ app.register_blueprint(record_division_bp)
 app.register_blueprint(record_branch_bp)
 app.register_blueprint(record_area_bp)
 app.register_blueprint(record_member_of_bar_association_bp)
+app.register_blueprint(record_application_type_bp)
+app.register_blueprint(record_register_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
