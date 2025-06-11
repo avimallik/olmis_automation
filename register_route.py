@@ -134,3 +134,4 @@ def get_areas(division_id, branch_id):
     data = [{"id": row[0], "name_code": f"{row[1]} ({row[2]})"} for row in cur.fetchall()]
     cur.close()
     return jsonify(areas=data)
+
