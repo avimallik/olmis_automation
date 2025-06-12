@@ -119,19 +119,19 @@ def register():
                            bar_associations=bar_associations,
                            application_types=application_types,)
 
-@register_bp.route('/get_branches/<int:division_id>')
-def get_branches(division_id):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT branch_id, branch_name, branch_code FROM tbl_branch WHERE division_id=%s", (division_id,))
-    data = [{"id": row[0], "name_code": f"{row[1]} ({row[2]})"} for row in cur.fetchall()]
-    cur.close()
-    return jsonify(branches=data)
 
-@register_bp.route('/get_areas/<int:division_id>/<int:branch_id>')
-def get_areas(division_id, branch_id):
+@register_bp.route('/register/get_areas/<int:division_id>')
+def get_areas(division_id):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT area_id, area_name, area_code FROM tbl_area WHERE division_id=%s AND branch_id=%s", (division_id, branch_id))
-    data = [{"id": row[0], "name_code": f"{row[1]} ({row[2]})"} for row in cur.fetchall()]
+    cur.execute("SELECT area_id, area_name, area_code FROM tbl_area WHERE division_id = %s", (division_id,))
+    areas = [{'id': row[0], 'name': row[1], 'code': row[2]} for row in cur.fetchall()]
     cur.close()
-    return jsonify(areas=data)
+    return jsonify(areas)
 
+@register_bp.route('/register/get_branches/<int:division_id>/<int:area_id>')
+def get_branches(division_id, area_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT branch_id, branch_name, branch_code FROM tbl_branch WHERE division_id = %s AND area_id = %s", (division_id, area_id))
+    branches = [{'id': row[0], 'name': row[1], 'code': row[2]} for row in cur.fetchall()]
+    cur.close()
+    return jsonify(branches)

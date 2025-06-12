@@ -56,29 +56,30 @@
                 <form method="POST" enctype="multipart/form-data" style="padding: 10px;">
                     <div class="row g-3">
                         <!-- Division -->
-                        <div class="col-md-4">
-                            <label for="division" class="form-label">Bank Division</label>
-                            <select class="form-select" id="division" name="division" required>
-                                <option value="">--Select Division--</option>
-                                {% for d in divisions %}
-                                    <option value="{{ d[0] }}" {% if lawyer['division_id']==d[0] %}selected{% endif %}>{{ d[1] }} ({{ d[2] }})</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <!-- Branch -->
-                        <div class="col-md-4">
-                            <label for="branch" class="form-label">Branch</label>
-                            <select id="branch" name="branch" class="form-select" required>
-                                <!-- Will be dynamically populated -->
-                            </select>
-                        </div>
-                        <!-- Area -->
-                        <div class="col-md-4">
-                            <label for="area" class="form-label">Area</label>
-                            <select id="area" name="area" class="form-select" required>
-                                <!-- Will be dynamically populated -->
-                            </select>
-                        </div>
+                            <div class="col-md-4">
+                                <label for="division" class="form-label">Bank Division</label>
+                                <select class="form-select" id="division" name="division" required>
+                                    <option value="">--Select Division--</option>
+                                    {% for d in divisions %}
+                                        <option value="{{ d[0] }}" {% if lawyer['division_id']==d[0] %}selected{% endif %}>{{ d[1] }} ({{ d[2] }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- Area -->
+                            <div class="col-md-4">
+                                <label for="area" class="form-label">Area</label>
+                                <select id="area" name="area" class="form-select" required>
+                                    <option value="">--Select Area--</option>
+                                </select>
+                            </div>
+                            <!-- Branch -->
+                            <div class="col-md-4">
+                                <label for="branch" class="form-label">Branch</label>
+                                <select id="branch" name="branch" class="form-select" required>
+                                    <option value="">--Select Branch--</option>
+                                </select>
+                            </div>
+
 
                         <!-- Country -->
                         <div class="col-md-6">
@@ -270,70 +271,65 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
 <script>
-$(document).ready(function() {
-    // Prepopulate branch and area
-    var divisionId = "{{ lawyer['division_id'] }}";
-    var branchId = "{{ lawyer['branch_id'] }}";
-    var areaId = "{{ lawyer['area_id'] }}";
-
-    function loadBranches(selectedDivisionId, selectedBranchId, selectedAreaId) {
-        var branchSelect = $('#branch');
-        var areaSelect = $('#area');
-        branchSelect.prop('disabled', true).html('<option value="">--Select Branch--</option>');
-        areaSelect.prop('disabled', true).html('<option value="">--Select Area--</option>');
-        if (selectedDivisionId) {
-            $.get('/get_branches/' + selectedDivisionId, function(data) {
-                if(data.branches.length) {
-                    branchSelect.prop('disabled', false);
-                    data.branches.forEach(function(branch) {
-                        branchSelect.append('<option value="'+branch.id+'"'
-                            +(branch.id==selectedBranchId ? ' selected' : '')+'>'
-                            +branch.name_code+'</option>');
+    $(document).ready(function() {
+        var divisionId = "{{ lawyer['division_id'] }}";
+        var areaId = "{{ lawyer['area_id'] }}";
+        var branchId = "{{ lawyer['branch_id'] }}";
+    
+        function loadAreas(selectedDivisionId, selectedAreaId) {
+            let $area = $('#area');
+            $area.prop('disabled', true).html('<option value="">--Select Area--</option>');
+            $('#branch').prop('disabled', true).html('<option value="">--Select Branch--</option>');
+            if(selectedDivisionId) {
+                $.getJSON('/lawyer-registers/get_areas/' + selectedDivisionId, function(data) {
+                    $.each(data, function(i, area) {
+                        $area.append('<option value="'+area.id+'"'+(area.id == selectedAreaId ? ' selected' : '')+'>'+area.name_code+'</option>');
                     });
-                    if (selectedBranchId) {
-                        $.get('/get_areas/' + selectedDivisionId + '/' + selectedBranchId, function(data) {
-                            if(data.areas.length) {
-                                areaSelect.prop('disabled', false);
-                                data.areas.forEach(function(area) {
-                                    areaSelect.append('<option value="'+area.id+'"'
-                                        +(area.id==selectedAreaId ? ' selected' : '')+'>'
-                                        +area.name_code+'</option>');
-                                });
-                            }
-                        });
+                    $area.prop('disabled', false);
+                    // If editing and areaId exists, trigger branch load
+                    if(selectedAreaId) {
+                        loadBranches(selectedDivisionId, selectedAreaId, branchId);
                     }
-                }
-            });
+                });
+            }
         }
-    }
-
-    // Initial load
-    loadBranches(divisionId, branchId, areaId);
-
-    // On Division Change
-    $('#division').on('change', function() {
-        loadBranches($(this).val(), null, null);
-    });
-
-    // On Branch Change
-    $('#branch').on('change', function() {
-        var divisionId = $('#division').val();
-        var branchId = $(this).val();
-        var areaSelect = $('#area');
-        areaSelect.prop('disabled', true).html('<option value="">--Select Area--</option>');
-        if (branchId) {
-            $.get('/get_areas/' + divisionId + '/' + branchId, function(data) {
-                if(data.areas.length) {
-                    areaSelect.prop('disabled', false);
-                    data.areas.forEach(function(area) {
-                        areaSelect.append('<option value="'+area.id+'">'+area.name_code+'</option>');
+    
+        function loadBranches(selectedDivisionId, selectedAreaId, selectedBranchId) {
+            let $branch = $('#branch');
+            $branch.prop('disabled', true).html('<option value="">--Select Branch--</option>');
+            if(selectedDivisionId && selectedAreaId) {
+                $.getJSON('/lawyer-registers/get_branches/' + selectedDivisionId + '/' + selectedAreaId, function(data) {
+                    $.each(data, function(i, branch) {
+                        $branch.append('<option value="'+branch.id+'"'+(branch.id == selectedBranchId ? ' selected' : '')+'>'+branch.name_code+'</option>');
                     });
-                }
-            });
+                    $branch.prop('disabled', false);
+                });
+            }
         }
+    
+        // Initial page load (edit form): load areas/branches for current division/area
+        if (divisionId) {
+            loadAreas(divisionId, areaId);
+        }
+    
+        // When division changes, reload areas and clear branch
+        $('#division').change(function() {
+            let divId = $(this).val();
+            loadAreas(divId, null);
+        });
+    
+        // When area changes, reload branches
+        $('#area').change(function() {
+            let divId = $('#division').val();
+            let areaId = $(this).val();
+            loadBranches(divId, areaId, null);
+        });
     });
-});
-</script>
+    </script>
+    
+    
 </body>
 </html>

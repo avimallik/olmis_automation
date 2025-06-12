@@ -196,10 +196,13 @@ def edit_register(id):
     lawyer = dict(zip(columns, row))
 
     # For dependent dropdowns: fetch available branches/areas
+    # For dependent dropdowns: fetch available branches/areas
     cur.execute("SELECT branch_id, branch_name, branch_code FROM tbl_branch WHERE division_id=%s", (lawyer.get('division_id'),))
     branches = cur.fetchall()
-    cur.execute("SELECT area_id, area_name, area_code FROM tbl_area WHERE division_id=%s AND branch_id=%s", (lawyer.get('division_id'), lawyer.get('branch_id')))
+
+    cur.execute("SELECT area_id, area_name, area_code FROM tbl_area WHERE division_id=%s", (lawyer.get('division_id'),))
     areas = cur.fetchall()
+
 
     if request.method == 'POST':
         form = request.form
@@ -314,6 +317,24 @@ def delete_register(id):
     cur.close()
     flash('Lawyer registration deleted!', 'success')
     return redirect(url_for('record_register.record_register'))
+
+from flask import jsonify
+
+@record_register_bp.route('/get_areas/<int:division_id>')
+def get_areas(division_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT area_id, area_name, area_code FROM tbl_area WHERE division_id = %s", (division_id,))
+    areas = [{'id': row[0], 'name_code': f"{row[1]} ({row[2]})"} for row in cur.fetchall()]
+    cur.close()
+    return jsonify(areas)
+
+@record_register_bp.route('/get_branches/<int:division_id>/<int:area_id>')
+def get_branches(division_id, area_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT branch_id, branch_name, branch_code FROM tbl_branch WHERE division_id = %s AND area_id = %s", (division_id, area_id))
+    branches = [{'id': row[0], 'name_code': f"{row[1]} ({row[2]})"} for row in cur.fetchall()]
+    cur.close()
+    return jsonify(branches)
 
 @record_register_bp.route('/logout')
 def logout():

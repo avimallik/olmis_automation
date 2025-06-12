@@ -80,7 +80,8 @@
                 {% endwith %}
                 <form method="POST" enctype="multipart/form-data" style="padding: 10px;">
                     <div class="row g-3">
-                        <!-- Division -->
+
+                        <!--Division-->
                         <div class="col-md-4">
                             <label for="division" class="form-label">Bank Division</label>
                             <select class="form-select" id="division" name="division" required>
@@ -90,18 +91,20 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <!-- Branch -->
-                        <div class="col-md-4">
-                            <label for="branch" class="form-label">Branch</label>
-                            <select id="branch" name="branch" class="form-select" disabled required>
-                                <option value="">--Select Branch--</option>
-                            </select>
-                        </div>
+
                         <!-- Area -->
                         <div class="col-md-4">
                             <label for="area" class="form-label">Area</label>
                             <select id="area" name="area" class="form-select" disabled required>
                                 <option value="">--Select Area--</option>
+                            </select>
+                        </div>
+
+                        <!-- Branch -->
+                        <div class="col-md-4">
+                            <label for="branch" class="form-label">Branch</label>
+                            <select id="branch" name="branch" class="form-select" disabled required>
+                                <option value="">--Select Branch--</option>
                             </select>
                         </div>
 
@@ -295,40 +298,45 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-// Dependent dropdowns for branch/area
-$('#division').on('change', function() {
-    var divisionId = $(this).val();
-    var branchSelect = $('#branch');
-    var areaSelect = $('#area');
-    branchSelect.prop('disabled', true).html('<option value="">--Select Branch--</option>');
-    areaSelect.prop('disabled', true).html('<option value="">--Select Area--</option>');
-    if (divisionId) {
-        $.get('/get_branches/' + divisionId, function(data) {
-            if(data.branches.length) {
-                branchSelect.prop('disabled', false);
-                data.branches.forEach(function(branch) {
-                    branchSelect.append('<option value="'+branch.id+'">'+branch.name_code+'</option>');
+    $(document).ready(function() {
+        // On Division change
+        $("#division").change(function() {
+            let divisionId = $(this).val();
+            $("#area").html('<option value="">--Select Area--</option>').prop("disabled", true);
+            $("#branch").html('<option value="">--Select Branch--</option>').prop("disabled", true);
+    
+            if(divisionId) {
+                $.getJSON('/register/get_areas/' + divisionId, function(areas) {
+                    if (areas.length > 0) {
+                        $.each(areas, function(i, area) {
+                            $("#area").append('<option value="' + area.id + '">' + area.name + ' (' + area.code + ')</option>');
+                        });
+                        $("#area").prop("disabled", false);
+                    }
                 });
             }
         });
-    }
-});
-$('#branch').on('change', function() {
-    var divisionId = $('#division').val();
-    var branchId = $(this).val();
-    var areaSelect = $('#area');
-    areaSelect.prop('disabled', true).html('<option value="">--Select Area--</option>');
-    if (branchId) {
-        $.get('/get_areas/' + divisionId + '/' + branchId, function(data) {
-            if(data.areas.length) {
-                areaSelect.prop('disabled', false);
-                data.areas.forEach(function(area) {
-                    areaSelect.append('<option value="'+area.id+'">'+area.name_code+'</option>');
+    
+        // On Area change
+        $("#area").change(function() {
+            let divisionId = $("#division").val();
+            let areaId = $(this).val();
+            $("#branch").html('<option value="">--Select Branch--</option>').prop("disabled", true);
+    
+            if(areaId && divisionId) {
+                $.getJSON('/register/get_branches/' + divisionId + '/' + areaId, function(branches) {
+                    if (branches.length > 0) {
+                        $.each(branches, function(i, branch) {
+                            $("#branch").append('<option value="' + branch.id + '">' + branch.name + ' (' + branch.code + ')</option>');
+                        });
+                        $("#branch").prop("disabled", false);
+                    }
                 });
             }
         });
-    }
-});
-</script>
+    });
+    </script>
+    
+
 </body>
 </html>
